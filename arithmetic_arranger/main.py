@@ -1,3 +1,27 @@
+def comparison(a: list, b: list, o: list) -> str:
+    c = []
+    for i, j, k in zip(a, b, o):
+        i, j = list(i), list(j)
+        
+        i.append("    ")
+        j.append("    ")
+
+        if len(i) > len(j):
+            i.insert(0, ' ')
+            i.insert(0, ' ')
+            while len(j) != len(i):
+                j.insert(0, ' ')
+            j[0] = k
+        else:
+            j.insert(0, ' ')
+            j.insert(0, k)
+            while len(j) != len(i):
+                i.insert(0, ' ')
+        while len(c) != len(i):
+            break
+
+
+
 def arithmetic_arranger(problems, show_answers=False):
     if len(problems) > 5:
         return "Error: Too many problems"
@@ -11,21 +35,28 @@ def arithmetic_arranger(problems, show_answers=False):
     top = list(map(lambda x: ''.join([i for i in x[:x.index(" ")]]), problems))
     bottom = list(map(lambda x: ''.join([i for i in x[x.rindex(" ") + 1:]]), problems))
     operators = list(map(lambda x: ''.join([i for i in x[x.index(" ") + 1:x.rindex(" ")]]), problems))
-    print(top)
-    print(bottom)
-    print(operators)
-    if show_answers:
-        answer = 1
+    answer = list(map(lambda x: 
+                      str(int(top[x]) - int(bottom[x])) if operators[x] == '-' 
+                      else str(int(top[x]) + int(bottom[x])), range(len(problems))))
+    
 
-    return answer
+
+    
 
 print(f'\n{arithmetic_arranger(["1 - 78", "3801 - 2", "45 + 43", "123 + 49"], True)}')
 
 # verificar qual dos numeros e maior
 # linhas = len do maior numero + 2
 # operador sempre na segunda linha, primeiro elemento
-
+# transformo a e b em lista
+# checo len(a) > len(b)
+# []
 """
+0 0 0 x x x
++ 0 y y y y
+- - - - - -
+0 0 a b c d
+
 The function will return the correct conversion if the supplied problems are properly formatted, otherwise, 
 it will return a string that describes an error that is meaningful to the user.
 
@@ -49,9 +80,6 @@ Numbers should be right-aligned.
 There should be four spaces between each problem.
 
 There should be dashes at the bottom of each problem. The dashes should run along the entire length of each problem individually.
-0 0 x x x x
-+ 0 0 y y y
-- - - - - -
-0 0 a b c d
+
 
 """
