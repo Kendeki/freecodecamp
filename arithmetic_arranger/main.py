@@ -6,9 +6,15 @@ def format(problems: list):
     answer = list(map(lambda x: 
                       str(int(top[x]) - int(bottom[x])) if operators[x] == '-' 
                       else str(int(top[x]) + int(bottom[x])), range(len(problems))))
-    dots = ['-'*i for i in [len(top[j]) + 2 if len(top[j]) > len(bottom[j]) else len(bottom[j]) + 2 for j in range(len(top))]]
-    print(top, bottom, answer, dots)
     
+    dots = ['-'*i for i in [len(top[j]) + 2 if len(top[j]) > len(bottom[j]) else len(bottom[j]) + 2 for j in range(len(top))]]
+    a = [" "*2 + top[i] if len(top[i]) > len(bottom[i]) else " "*(len(bottom[i]) + 2 - len(top[i])) + top[i] for i in range(len(top))]
+    b = [operators[i] + " " + bottom[i] if len(bottom[i]) > len(top[i]) else operators[i]+ " "*(len(top[i]) + 1 - len(bottom[i])) + bottom[i] for i in range(len(bottom))]
+    print(top)
+    print(bottom)
+    print(a)
+    print(b)
+    print(dots)
     
     for i in range(2*len(top)):
         if i % 2 != 0:
