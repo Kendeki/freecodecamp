@@ -16,10 +16,29 @@ def arithmetic_arranger(problems, show_answers=False):
                       str(int(top[x]) - int(bottom[x])) if operators[x] == '-' 
                       else str(int(top[x]) + int(bottom[x])), range(len(problems))))
     
-    dots = ['-' * i for i in [len(top[j]) + 2 if len(top[j]) > len(bottom[j]) else len(bottom[j]) + 2 for j in range(len(top))]]
-    top = [" " * 2 + top[i] if len(top[i]) > len(bottom[i]) else " " * (len(bottom[i]) + 2 - len(top[i])) + top[i] for i in range(len(top))]
-    bottom = [operators[i] + " " + bottom[i] if len(bottom[i]) > len(top[i].lstrip()) else operators[i]+ " " * (len(top[i].lstrip()) + 1 - len(bottom[i])) + bottom[i] for i in range(len(bottom))]
-    answer = [" " * (len(top[i]) - len(answer[i])) + answer[i] if len(top[i]) > len(bottom[i]) else " " * (len(bottom[i]) - len(answer[i])) + answer[i] for i in range(len(top))]
+    dots = [
+        '-' * i for i in [len(top[j]) + 2 
+        if len(top[j]) > len(bottom[j]) 
+        else len(bottom[j]) + 2 for j in range(len(top))]
+        ]
+    
+    top = [
+        " " * 2 + top[i] 
+        if len(top[i]) > len(bottom[i]) 
+        else " " * (len(bottom[i]) + 2 - len(top[i])) + top[i] for i in range(len(top))
+        ]
+    
+    bottom = [
+        operators[i] + " " + bottom[i] 
+        if len(bottom[i]) > len(top[i].lstrip())
+        else operators[i]+ " " * (len(top[i].lstrip()) + 1 - len(bottom[i])) + bottom[i] for i in range(len(bottom))
+        ]
+    
+    answer = [
+        " " * (len(top[i]) - len(answer[i])) + answer[i] 
+        if len(top[i]) > len(bottom[i]) 
+        else " " * (len(bottom[i]) - len(answer[i])) + answer[i] for i in range(len(top))
+        ]
     
     for i in range(2*len(top) - 1):
         if i % 2 != 0:
