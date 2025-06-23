@@ -1,4 +1,13 @@
-def format(problems: list):
+def arithmetic_arranger(problems, show_answers=False):
+    
+    if len(problems) > 5:
+        return "Error: Too many problems."
+    if len(list(filter(lambda x: x[x.index(' ') + 1] not in ['+', '-'], problems))) != 0:
+        return "Error: Operator must be '+' or '-'."
+    if len(list(filter(lambda x: not(''.join([i for i in x if i not in [' ', '+', '-']]).isnumeric()), problems))) != 0:
+        return 'Error: Numbers must only contain digits.'
+    if len(list(filter(lambda x: len(x[:x.index(" ")]) > 4 or len(x[x.rindex(" ") + 1:]) > 4, problems))) != 0:
+        return 'Error: Numbers cannot be more than four digits.'
     
     top = list(map(lambda x: ''.join([i for i in x[:x.index(" ")]]), problems))
     bottom = list(map(lambda x: ''.join([i for i in x[x.rindex(" ") + 1:]]), problems))
@@ -7,76 +16,18 @@ def format(problems: list):
                       str(int(top[x]) - int(bottom[x])) if operators[x] == '-' 
                       else str(int(top[x]) + int(bottom[x])), range(len(problems))))
     
-    dots = ['-'*i for i in [len(top[j]) + 2 if len(top[j]) > len(bottom[j]) else len(bottom[j]) + 2 for j in range(len(top))]]
-    a = [" "*2 + top[i] if len(top[i]) > len(bottom[i]) else " "*(len(bottom[i]) + 2 - len(top[i])) + top[i] for i in range(len(top))]
-    b = [operators[i] + " " + bottom[i] if len(bottom[i]) > len(top[i]) else operators[i]+ " "*(len(top[i]) + 1 - len(bottom[i])) + bottom[i] for i in range(len(bottom))]
-    print(top)
-    print(bottom)
-    print(a)
-    print(b)
-    print(dots)
+    dots = ['-' * i for i in [len(top[j]) + 2 if len(top[j]) > len(bottom[j]) else len(bottom[j]) + 2 for j in range(len(top))]]
+    top = [" " * 2 + top[i] if len(top[i]) > len(bottom[i]) else " " * (len(bottom[i]) + 2 - len(top[i])) + top[i] for i in range(len(top))]
+    bottom = [operators[i] + " " + bottom[i] if len(bottom[i]) > len(top[i].lstrip()) else operators[i]+ " " * (len(top[i].lstrip()) + 1 - len(bottom[i])) + bottom[i] for i in range(len(bottom))]
+    answer = [" " * (len(top[i]) - len(answer[i])) + answer[i] if len(top[i]) > len(bottom[i]) else " " * (len(bottom[i]) - len(answer[i])) + answer[i] for i in range(len(top))]
     
-    for i in range(2*len(top)):
+    for i in range(2*len(top) - 1):
         if i % 2 != 0:
             top.insert(i, "    ")
             bottom.insert(i, "    ")
             answer.insert(i, "    ")
             dots.insert(i, "    ")
-    top.pop()
-    bottom.pop()
-    answer.pop()
-
-
-def arithmetic_arranger(problems, show_answers=False):
+    if not show_answers:
+        return f"{''.join(top)}\n{''.join(bottom)}\n{''.join(dots)}"
     
-    if len(problems) > 5:
-        return "Error: Too many problems"
-    if len(list(filter(lambda x: x[x.index(' ') + 1] not in ['+', '-'], problems))) != 0:
-        return "Error: Operator must be '+' or '-'."
-    if len(list(filter(lambda x: not(''.join([i for i in x if i not in [' ', '+', '-']]).isnumeric()), problems))) != 0:
-        return 'Error: Numbers must only contain digits.'
-    if len(list(filter(lambda x: len(x[:x.index(" ")]) > 4 or len(x[x.rindex(" "):]) > 4, problems))) != 0:
-        return 'Error: Numbers cannot be more than four digits.'
-
-    format(problems)    
-
-print(f'\n{arithmetic_arranger(["1 - 78", "3801 - 2", "45 + 43", "123 + 49", "1 + 2"], True)}')
-
-# verificar qual dos numeros e maior
-# linhas = len do maior numero + 2
-# operador sempre na segunda linha, primeiro elemento
-# transformo a e b em lista
-# checo len(a) > len(b)
-# []
-"""
-0 0 0 x x x
-+ 0 y y y y
-- - - - - -
-0 0 a b c d
-
-The function will return the correct conversion if the supplied problems are properly formatted, otherwise, 
-it will return a string that describes an error that is meaningful to the user.
-
-Situations that will return an error:
-If there are too many problems supplied to the function. The limit is five, anything more will return: 'Error: Too many problems.'
-
-The appropriate operators the function will accept are addition and subtraction. Multiplication and division will return an error. 
-Other operators not mentioned in this bullet point will not need to be tested. The error returned will be: "Error: Operator must be '+' or '-'."
-
-Each number (operand) should only contain digits. Otherwise, the function will return: 'Error: Numbers must only contain digits.'
-
-Each operand (aka number on each side of the operator) has a max of four digits in width. 
-Otherwise, the error string returned will be: 'Error: Numbers cannot be more than four digits.'
-
-If the user supplied the correct format of problems, the conversion you return will follow these rules:
-There should be a single space between the operator and the longest of the two operands, the operator will be on the same line as the 
-second operand, both operands will be in the same order as provided (the first will be the top one and the second will be the bottom).
-
-Numbers should be right-aligned.
-
-There should be four spaces between each problem.
-
-There should be dashes at the bottom of each problem. The dashes should run along the entire length of each problem individually.
-
-
-"""
+    return f"{''.join(top)}\n{''.join(bottom)}\n{''.join(dots)}\n{''.join(answer)}"
