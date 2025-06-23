@@ -1,28 +1,28 @@
-def comparison(a: list, b: list, o: list) -> str:
-    c = []
-    for i, j, k in zip(a, b, o):
-        i, j = list(i), list(j)
-        
-        i.append("    ")
-        j.append("    ")
-
-        if len(i) > len(j):
-            i.insert(0, ' ')
-            i.insert(0, ' ')
-            while len(j) != len(i):
-                j.insert(0, ' ')
-            j[0] = k
-        else:
-            j.insert(0, ' ')
-            j.insert(0, k)
-            while len(j) != len(i):
-                i.insert(0, ' ')
-        while len(c) != len(i):
-            break
-
+def format(problems: list):
+    
+    top = list(map(lambda x: ''.join([i for i in x[:x.index(" ")]]), problems))
+    bottom = list(map(lambda x: ''.join([i for i in x[x.rindex(" ") + 1:]]), problems))
+    operators = list(map(lambda x: ''.join([i for i in x[x.index(" ") + 1:x.rindex(" ")]]), problems))
+    answer = list(map(lambda x: 
+                      str(int(top[x]) - int(bottom[x])) if operators[x] == '-' 
+                      else str(int(top[x]) + int(bottom[x])), range(len(problems))))
+    dots = ['-'*i for i in [len(top[j]) + 2 if len(top[j]) > len(bottom[j]) else len(bottom[j]) + 2 for j in range(len(top))]]
+    print(top, bottom, answer, dots)
+    
+    
+    for i in range(2*len(top)):
+        if i % 2 != 0:
+            top.insert(i, "    ")
+            bottom.insert(i, "    ")
+            answer.insert(i, "    ")
+            dots.insert(i, "    ")
+    top.pop()
+    bottom.pop()
+    answer.pop()
 
 
 def arithmetic_arranger(problems, show_answers=False):
+    
     if len(problems) > 5:
         return "Error: Too many problems"
     if len(list(filter(lambda x: x[x.index(' ') + 1] not in ['+', '-'], problems))) != 0:
@@ -32,18 +32,9 @@ def arithmetic_arranger(problems, show_answers=False):
     if len(list(filter(lambda x: len(x[:x.index(" ")]) > 4 or len(x[x.rindex(" "):]) > 4, problems))) != 0:
         return 'Error: Numbers cannot be more than four digits.'
 
-    top = list(map(lambda x: ''.join([i for i in x[:x.index(" ")]]), problems))
-    bottom = list(map(lambda x: ''.join([i for i in x[x.rindex(" ") + 1:]]), problems))
-    operators = list(map(lambda x: ''.join([i for i in x[x.index(" ") + 1:x.rindex(" ")]]), problems))
-    answer = list(map(lambda x: 
-                      str(int(top[x]) - int(bottom[x])) if operators[x] == '-' 
-                      else str(int(top[x]) + int(bottom[x])), range(len(problems))))
-    
+    format(problems)    
 
-
-    
-
-print(f'\n{arithmetic_arranger(["1 - 78", "3801 - 2", "45 + 43", "123 + 49"], True)}')
+print(f'\n{arithmetic_arranger(["1 - 78", "3801 - 2", "45 + 43", "123 + 49", "1 + 2"], True)}')
 
 # verificar qual dos numeros e maior
 # linhas = len do maior numero + 2
