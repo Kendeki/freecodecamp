@@ -16,7 +16,7 @@ def arithmetic_arranger(problems, show_answers=False):
                       str(int(top[x]) - int(bottom[x])) if operators[x] == '-' 
                       else str(int(top[x]) + int(bottom[x])), range(len(problems))))
     
-    dots = [
+    dashes = [
         '-' * i for i in [len(top[j]) + 2 
         if len(top[j]) > len(bottom[j]) 
         else len(bottom[j]) + 2 for j in range(len(top))]
@@ -45,8 +45,8 @@ def arithmetic_arranger(problems, show_answers=False):
             top.insert(i, "    ")
             bottom.insert(i, "    ")
             answer.insert(i, "    ")
-            dots.insert(i, "    ")
+            dashes.insert(i, "    ")
     if not show_answers:
-        return f"{''.join(top)}\n{''.join(bottom)}\n{''.join(dots)}"
+        return f"{''.join(top)}\n{''.join(bottom)}\n{''.join(dashes)}"
     
-    return f"{''.join(top)}\n{''.join(bottom)}\n{''.join(dots)}\n{''.join(answer)}"
+    return f"{''.join(top)}\n{''.join(bottom)}\n{''.join(dashes)}\n{''.join(answer)}"
