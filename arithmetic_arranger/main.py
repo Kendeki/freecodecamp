@@ -1,4 +1,4 @@
-def arithmetic_arranger(problems, show_answers=False):
+def arithmetic_arranger(problems: list[str], show_answers: bool = False):
     
     if len(problems) > 5:
         return "Error: Too many problems."
