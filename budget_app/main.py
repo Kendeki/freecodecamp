@@ -1,3 +1,5 @@
+from math import floor
+
 class Category:
     def __init__(self, name: str):
         self.name = name
@@ -41,32 +43,30 @@ class Category:
 def create_spend_chart(categories: list[Category]) -> str:
     def check_withdraws(category: Category) -> float:
         return sum(i['amount'] if i['amount'] < 0 else 0 for i in category.ledger)
-    
-    def num_circles(withdraw: list[float]) -> list[int]:
-        return [int(round(i/sum(withdraw)*100, -1)/10) + 1 for i in withdraw]
-    
-    withdraws_percentage = num_circles(list(map(check_withdraws, categories)))
-    print(withdraws_percentage)
-    
-    title = 'Percentage spent by category\n'
 
-    return ''
+    def percentage(withdraw: list[float]) -> list[int]:
+        return [int(floor(i/sum(withdraw)*100)) for i in withdraw]
     
-# test case
+    withdraws_percentage = percentage(list(map(check_withdraws, categories)))
+    
+    output_string = 'Percentage spent by category\n'
+    for i in range(100, -1, -10):
+        output_string += f'{i!s:>3}| '
+        for p in withdraws_percentage:
+            output_string += f'{"o" if p >= i else " "}  '
+        output_string += '\n'
+    
+    output_string += f'{(x := "-" * 3 * len(categories) + "-"):>{len(x)+4}}\n'
+    longest_word = max([len(i.name) for i in categories])
 
-food = Category('Food')
-food.deposit(1000, 'deposit')
-food.withdraw(240.15, 'groceries')
-food.withdraw(100.89, 'restaurant and more food for dessert')
-clothing = Category('Clothing')
-food.transfer(500, clothing)
-clothing.withdraw(240.15, 'groceries')
-print(food)
-a = Category('a')
-a.deposit(1223, 'skibidi')
-a.withdraw(100, 'groceries')
-a.withdraw(152.89, 'teste')
-b = Category('b')
-a.transfer(500, b)
-b.withdraw(300, 'groceries')
-create_spend_chart([food,clothing,a,b])
+    for i in range(longest_word):
+        output_string += ' ' * 5
+        for category in categories:
+            try:
+                output_string += f'{category.name[i]}  '
+            except IndexError:
+                output_string += ' ' * 3
+        if i != longest_word - 1:
+            output_string += '\n'
+
+    return output_string
