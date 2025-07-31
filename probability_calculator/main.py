@@ -13,7 +13,7 @@ class Hat:
 
             # Checagens no input para evitar problemas no código.
             # Não é necessário para esse projeto em si, apenas
-            # cluí por apresentar boa prática.
+            # incluí por apresentar boa prática.
 
             if type(quantity) != int:
                 raise TypeError("Quantity must be an int.")
