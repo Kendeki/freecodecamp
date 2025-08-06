@@ -4,7 +4,7 @@ from pathlib import Path
 def calculate_demographic_data(print_data=True):
     # Read data from file
     current_path = __file__
-    df = pd.read_csv(str(Path(__file__).parent.resolve()) + "/adult.data.csv")
+    df = pd.read_csv(str(Path(current_path).parent.resolve()) + "/adult.data.csv")
 
     # How many of each race are represented in this dataset? This should be a Pandas series with race names as the index labels.
     race_count = df["race"].value_counts()
